@@ -1,5 +1,6 @@
 #include "Customer.h"
 #include "Account.h"
+#include "functions.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,32 +9,38 @@ using namespace std;
 //LINKED LIST
 //-------------------------------------------------------------------------------------
 
-struct Node{
-    Node *next;
-    double transaction;
-    int transactionID;  
-};
 
-bool isEmpty(Node *head){
-    if(head == NULL){
+bool isEmpty(){
+    if(!head)
         return true;
+    return false;
+};
+
+
+void addToList(double amount, int acctID, int ID){
+head = new Node(head,ID,acctID,amount);
+cout<<head->transaction;
+cout<<"WORKED";
+};
+
+
+int transactionIDfunc(int &IDtracker){
+    IDtracker = IDtracker + 1;
+    return IDtracker;
+};
+
+
+//remove?
+
+void printLinkedList(){
+    for(Node* temp = head; temp; temp = temp->next){
+        cout<<"\n\nTransaction Amount:"<<temp->transaction;
     }
-    else{
-        return false;
-    }
-};
+}
+//find by account ID and trabsation ID
 
-void startList(double amount, Node *head){
-    Node *temp;
-    temp->transaction = amount;
-    temp->next = NULL;
-    head = temp;
-    cout<<"TEST: ";
-};
 
-void addToList(double amount, Node *head){
 
-};
 //MENU FUNCTIONS
 //-------------------------------------------------------------------------------------
 void createProfile(vector<Customer> &allCustomers){
@@ -73,7 +80,7 @@ void displayAccounts(vector<Customer>allCustomers){
     }
 }
 
-void depositAmount(vector<Customer> &allCustomers){
+void depositAmount(vector<Customer> &allCustomers,int trans){
    string bankerInput;
    bool foundUser;
    double deposit;
@@ -103,12 +110,13 @@ void depositAmount(vector<Customer> &allCustomers){
         allCustomers[i].getCustomerAcct().setBalance(&newAmount);
         system("clear");
         cout<<"\t\n\n Done!";
+        addToList(deposit,allCustomers[i].getCustomerAcct().getID(),transactionIDfunc(trans));
         foundUser = true;
        }
    }
    if(foundUser == false){
     cout<<"Sorry, That Username doesnt exist. Please try again.";
-    depositAmount(allCustomers);
+    depositAmount(allCustomers,trans);
    }
 }
 
