@@ -1,15 +1,15 @@
 #include "Customer.h"
 #include "Account.h"
-#include "functions.cpp"
+#include "functions.h"
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
 
-
 int main(){
-    Node *head;
+    head = NULL;
     vector<Customer>allCustomers;
+    int transactionID = 0;
     string loginName;
     string loginPassword;
     string first;
@@ -27,6 +27,7 @@ int main(){
         cout<<"\n\n\t6. CLOSE AN ACCOUNT";
         cout<<"\n\n\t7. MODIFY AN ACCOUNT";
         cout<<"\n\n\t8. EXIT";
+        cout<<"\n\n\t9. DISPLAY ALL TRANSACTIONS";
         cout<<"\n\n";
         cout<<"\n\n\tSelect Your Option: ";
         cin>>option;
@@ -38,7 +39,7 @@ int main(){
             break;
 
         case 2:
-            depositAmount(allCustomers);
+            depositAmount(allCustomers, transactionID);
             break;
 
         case 3:
@@ -66,6 +67,10 @@ int main(){
             loopStop = true;
             cout<<"\n\n";
             return 0;
+            break;
+
+        case 9:
+            printLinkedList();
             break;
         
         default:{
