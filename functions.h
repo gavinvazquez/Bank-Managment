@@ -17,15 +17,18 @@ struct Node{
         next = n;
         accountID = acctID;
         transaction = trans;
+        transactionID = ID;
     }
 };
 
-Node *head;
 
+//LINKED LIST FUNCTIONS
 bool isEmpty();
-void addToList(double amount, int acctID, int ID);
+void addToList(double amount, int acctID, int *ID);
 int transactionIDfunc(int &IDtracker);
 void printLinkedList();
+void findByAccountID(int input);
+void findByTransactionID(int input);
 
 //MENU FUNCTIONS
 void createProfile(vector<Customer> &allCustomers);

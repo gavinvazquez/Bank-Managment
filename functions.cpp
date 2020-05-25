@@ -8,7 +8,8 @@ using namespace std;
 
 //LINKED LIST
 //-------------------------------------------------------------------------------------
-
+Node *head = NULL;
+int IDtracker = 0;
 
 bool isEmpty(){
     if(!head)
@@ -16,35 +17,60 @@ bool isEmpty(){
     return false;
 };
 
-
 void addToList(double amount, int acctID, int ID){
 head = new Node(head,ID,acctID,amount);
-cout<<head->transaction;
-cout<<"WORKED";
 };
-
-
-int transactionIDfunc(int &IDtracker){
-    IDtracker = IDtracker + 1;
-    return IDtracker;
-};
-
-
-//remove?
 
 void printLinkedList(){
+    cout<<"\n";
     for(Node* temp = head; temp; temp = temp->next){
-        cout<<"\n\nTransaction Amount:"<<temp->transaction;
+        cout<<"Account ID: "<<temp->accountID;
+        cout<<"\nTransaction ID: "<<temp->transactionID;
+        cout<<"\nTransaction Amount:"<<temp->transaction<<"\n\n";
     }
-}
-//find by account ID and trabsation ID
+    if(isEmpty() == true){
+        cout<<"List is empty!";
+    }
+};
 
+void findByAccountID(int input){
+    bool foundID = false;
+    cout<<"\n";
+    for(Node* temp = head; temp; temp = temp->next){
+        
+        if(temp->accountID == input){
+            cout<<"Account ID: "<<temp->accountID;
+            cout<<"\nTransaction ID: "<<temp->transactionID;
+            cout<<"\nTransaction Amount:"<<temp->transaction<<"\n\n";
+            foundID = true;
+        }
+    }
+        if(foundID == false){
+            cout<<"Transaction could not be found";
+        }
+};
+
+void findByTransactionID(int input){
+    bool foundID = false;
+    cout<<"\n";
+    for(Node* temp = head; temp; temp = temp->next){
+           if(temp->transactionID == input){
+            cout<<"Account ID: "<<temp->accountID;
+            cout<<"\nTransaction ID: "<<temp->transactionID;
+            cout<<"\nTransaction Amount:"<<temp->transaction<<"\n\n";
+            foundID = true;
+        }
+    }
+        if(foundID == false){
+            cout<<"Transaction could not be found";
+        }
+    }
 
 
 //MENU FUNCTIONS
 //-------------------------------------------------------------------------------------
 void createProfile(vector<Customer> &allCustomers){
-        system("clear");
+        
         string loginName;
         string loginPassword;
         string first;
@@ -63,11 +89,11 @@ void createProfile(vector<Customer> &allCustomers){
         loginPassword);
 
         allCustomers.push_back(newCustomer);
-       system("clear");
+       
 }
 
 void displayAccounts(vector<Customer>allCustomers){
-    system("clear");
+    
     for (int i = 0; i < allCustomers.size(); i++)
     {
         cout<<"\t\n";
@@ -86,12 +112,12 @@ void depositAmount(vector<Customer> &allCustomers,int trans){
    double deposit;
    double newAmount;
 
-   system("clear");
+   
    cout<<"\t\nWhich user's account would you like to deposit to?\n\n";
    cout<<"\tIf you would like to exit to the menu enter: EXIT\n\n";
    cout<<"\t\nUsername: ";
    cin>>bankerInput;
-   system("clear");
+   
 
     if(bankerInput == "EXIT"){
         return;
@@ -100,7 +126,7 @@ void depositAmount(vector<Customer> &allCustomers,int trans){
    for (int i = 0; i < allCustomers.size(); i++)
    {
        if(allCustomers[i].getUsername() == bankerInput ){
-        system("clear");
+        
         cout<<"\t\n\n"<<"Account ID: "<<allCustomers[i].getCustomerAcct().getID();
         cout<<"\t\n"<<"Current Balance: $"<<allCustomers[i].getCustomerAcct().getBalance()<<"\n\n";
         cout<<"\t\nHow much would you like to deposit to this account?\n\n"<<"$";
@@ -108,9 +134,10 @@ void depositAmount(vector<Customer> &allCustomers,int trans){
 
         newAmount = allCustomers[i].getCustomerAcct().getBalance() + deposit;
         allCustomers[i].getCustomerAcct().setBalance(&newAmount);
-        system("clear");
-        cout<<"\t\n\n Done!";
-        addToList(deposit,allCustomers[i].getCustomerAcct().getID(),transactionIDfunc(trans));
+        
+        cout<<"\t\nDone!";
+        IDtracker++;
+        addToList(deposit,allCustomers[i].getCustomerAcct().getID(),IDtracker);
         foundUser = true;
        }
    }
@@ -126,12 +153,12 @@ void withdrawAmount(vector<Customer> &allCustomers){
    double withdraw;
    double newAmount;
 
-   system("clear");
+   
    cout<<"\t\nWhich user's account would you like to withdraw from?\n\n";
    cout<<"\tIf you would like to exit to the menu enter: EXIT\n\n";
    cout<<"\t\nUsername: ";
    cin>>bankerInput;
-   system("clear");
+
 
     if(bankerInput == "EXIT"){
         return;
@@ -140,7 +167,7 @@ void withdrawAmount(vector<Customer> &allCustomers){
    for (int i = 0; i < allCustomers.size(); i++)
    {
        if(allCustomers[i].getUsername() == bankerInput ){
-        system("clear");
+        
         cout<<"\t\n\n"<<"Account ID: "<<allCustomers[i].getCustomerAcct().getID();
         cout<<"\t\n"<<"Current Balance: $"<<allCustomers[i].getCustomerAcct().getBalance()<<"\n\n";
         cout<<"\t\nHow much would you like to withdraw from this account?\n\n"<<"$";
@@ -149,7 +176,9 @@ void withdrawAmount(vector<Customer> &allCustomers){
         newAmount = allCustomers[i].getCustomerAcct().getBalance() - withdraw;
         allCustomers[i].getCustomerAcct().setBalance(&newAmount);
         
-        cout<<"\t\n\n Done!";
+        cout<<"\t\nDone!";
+        IDtracker++;
+        addToList(withdraw * -1,allCustomers[i].getCustomerAcct().getID(),IDtracker);
         foundUser = true;
        }
    }
@@ -162,12 +191,12 @@ void withdrawAmount(vector<Customer> &allCustomers){
 void checkEnquiry(vector<Customer>&allCustomers){
    string bankerInput;
    bool foundUser;
-   system("clear");
+   
    cout<<"\t\nWhich user's account's balance would you like to view?\n\n";
    cout<<"\tIf you would like to exit to the menu enter: EXIT\n\n";
    cout<<"\t\nUsername: ";
    cin>>bankerInput;
-   system("clear");
+   
 
     if(bankerInput == "EXIT"){
         return;
@@ -176,7 +205,7 @@ void checkEnquiry(vector<Customer>&allCustomers){
    for (int i = 0; i < allCustomers.size(); i++)
    {
        if(allCustomers[i].getUsername() == bankerInput ){
-        system("clear");
+        
         cout<<"\t\n";
         cout<<allCustomers[i].getFName()<<" "<<allCustomers[i].getLName()<<"'s Account";
         cout<<"\t\n\n"<<"Account ID: "<<allCustomers[i].getCustomerAcct().getID();
@@ -195,12 +224,12 @@ void closeAccount(vector<Customer>&allCustomers){
    string bankerInput;
    bool foundUser;
 
-   system("clear");
+   
    cout<<"\t\nWhich user's account's would you like to delete?\n\n";
    cout<<"\tIf you would like to exit to the menu enter: EXIT\n\n";
    cout<<"\t\nUsername: ";
    cin>>bankerInput;
-   system("clear");
+   
     
     if(bankerInput == "EXIT"){
         return;
@@ -209,7 +238,7 @@ void closeAccount(vector<Customer>&allCustomers){
    for (int i = 0; i < allCustomers.size(); i++)
    {
        if(allCustomers[i].getUsername() == bankerInput ){
-        system("clear");
+        
         allCustomers.erase(allCustomers.begin()+i);
         foundUser = true;
        }
@@ -225,12 +254,12 @@ void editAccount(vector<Customer>&allCustomers){
    string bankerInput;
    bool foundUser;
 
-   system("clear");
+   
    cout<<"\t\nWhich user's account's would you like to edit?\n\n";
    cout<<"\tIf you would like to exit to the menu enter: EXIT\n\n";
    cout<<"\t\nUsername: ";
    cin>>bankerInput;
-   system("clear");
+   
 
     if(bankerInput == "EXIT"){
         return;
@@ -239,7 +268,7 @@ void editAccount(vector<Customer>&allCustomers){
    for (int i = 0; i < allCustomers.size(); i++)
    {
        if(allCustomers[i].getUsername() == bankerInput ){
-        system("clear");
+        
         int menuChoice;
         string editUser, editPass, editFirst, editLast;
 
