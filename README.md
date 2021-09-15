@@ -9,8 +9,5 @@ List of features
 * Singly-Linked List 
 * Vector Storing all Bank Account Holders
 
-## Status
-In-Progress
-
 ## Contact
 Created by Gavin Vazquez gavinvazquez26@gmail.com - please feel free to contact me.
